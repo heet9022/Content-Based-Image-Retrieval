@@ -8,16 +8,15 @@ using namespace std;
 
 #include "helper.h"
 
-int task(string target_file_name, string featureName, int n) {
+int task(string dir,  string target_file_name, string featureName, int n) {
 
 	fs::path target_path = fs::current_path();
-	string dir = "olympus";
 	target_path = (target_path/dir)/target_file_name;
 	Mat target = imread(target_path.string(), IMREAD_COLOR);
 
 	string database = "_feature_database.csv";
 
-	saveFeatures(dir, featureName);
+	//saveFeatures(dir, featureName);
 	vector<char*> fileNames;
 	vector<vector<float>> featuresData;
 	readFeatures(featureName+database, fileNames, featuresData);
@@ -29,7 +28,7 @@ int task(string target_file_name, string featureName, int n) {
 			return a.dist < b.dist;
 		});
 
-	for (int i = 1; i < n+1; i++) {
+	for (int i = 0; i < n+1; i++) {
 
 		fs::path img_path = ((fs::current_path() / dir) / string(distances[i].filename));
 		imshow("results", imread(img_path.string(), IMREAD_COLOR));
@@ -40,20 +39,27 @@ int task(string target_file_name, string featureName, int n) {
 
 int main() {
 
-	int task_number = 1;
+	int task_number = 5;
 	switch (task_number) {
 		case 1: {
-			task("pic.1016.jpg", "baseline", 3);
+			task("olympus", "pic.1016.jpg", "baseline", 4);
 			break;
 		}
 		case 2: {
-			task("pic.0164.jpg", "hist_matching", 3);
+			task("olympus", "pic.0535.jpg", "hist_matching", 4);
 			break;
 		}
 		case 3: {
-			task("pic.0274.jpg", "multi-hist_matching", 3);
+			task("olympus", "pic.0535.jpg", "multi-hist_matching", 4);
 			break;
 		}
+		case 4: {
+			task("olympus", "pic.0535.jpg", "color-texture_matching", 4);
+			break;
+		}
+		case 5:
+			task("orange_norange", "orange_1.jpeg", "custom_matching", 6);
+		
 	}
 	return 0;
 }
