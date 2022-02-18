@@ -3,10 +3,9 @@
 #include <opencv2/imgproc.hpp>
 #include <iostream>
 
+#include "helper.h"
 using namespace cv;
 using namespace std;
-
-#include "helper.h"
 
 int task(string dir,  string target_file_name, string featureName, int n) {
 
@@ -28,7 +27,7 @@ int task(string dir,  string target_file_name, string featureName, int n) {
 			return a.dist < b.dist;
 		});
 
-	for (int i = 0; i < n+1; i++) {
+	for (int i = 0; i < n; i++) {
 
 		fs::path img_path = ((fs::current_path() / dir) / string(distances[i].filename));
 		imshow("results", imread(img_path.string(), IMREAD_COLOR));
@@ -39,27 +38,28 @@ int task(string dir,  string target_file_name, string featureName, int n) {
 
 int main() {
 
-	int task_number = 5;
+	int task_number = 4;
 	switch (task_number) {
 		case 1: {
 			task("olympus", "pic.1016.jpg", "baseline", 4);
 			break;
 		}
 		case 2: {
-			task("olympus", "pic.0535.jpg", "hist_matching", 4);
+			task("olympus", "pic.0164.jpg", "hist_matching", 4);
 			break;
 		}
 		case 3: {
-			task("olympus", "pic.0535.jpg", "multi-hist_matching", 4);
+			task("olympus", "pic.0274.jpg", "multi-hist_matching", 4);
 			break;
 		}
 		case 4: {
 			task("olympus", "pic.0535.jpg", "color-texture_matching", 4);
 			break;
 		}
-		case 5:
-			task("orange_norange", "orange_1.jpeg", "custom_matching", 6);
-		
+		case 5: {
+			task("orange_norange", "orange_7.jpeg", "custom_matching", 10);
+			break;
+		}
 	}
 	return 0;
 }
